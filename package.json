@@ -13,7 +13,7 @@
   "author": "VSL-Labs",
   "keywords": [
     "vsl-labs",
-    "webgl-react",
+    "webgl-js",
     "ASL",
     "sign-language",
     "ai-sign-language",
@@ -26,11 +26,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vsllabs-git/webgl-react.git"
+    "url": "git+https://github.com/vsllabs-git/webgl-js.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/vsllabs-git/webgl-react/issues"
+    "url": "https://github.com/vsllabs-git/webgl-js/issues"
   },
   "devDependencies": {
     "tsup": "^8.3.5",
