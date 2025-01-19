@@ -30,7 +30,6 @@ $ yarn add @vsllabs/webgl-js
 Below is an example of how to use the webgl-js:
 
 index.html:
-
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -65,7 +64,6 @@ index.html:
 ```
 
 index.js
-
 ```js
 import { initialize, translateTextToASL } from "@vsllabs/webgl-js";
 
