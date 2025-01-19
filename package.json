@@ -1,0 +1,39 @@
+{
+  "name": "@vsllabs/webgl-js",
+  "description": "VSL-Labs Webgl implementation for translating text into 3D sign language",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "private": false,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsup"
+  },
+  "author": "VSL-Labs",
+  "keywords": [
+    "vsl-labs",
+    "webgl-react",
+    "ASL",
+    "sign-language",
+    "ai-sign-language",
+    "text-to-ASL",
+    "Deaf-community"
+  ],
+  "homepage": "https://vsllabs.com",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vsllabs-git/webgl-react.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vsllabs-git/webgl-react/issues"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.3"
+  }
+}
