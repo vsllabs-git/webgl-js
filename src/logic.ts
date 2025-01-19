@@ -198,7 +198,7 @@ function handleMessage(event: any) {
   ) {
     setTimeout(() => {
       isUnityLoaded = true;
-    }, 2500);
+    }, 3200);
   }
 }
 
