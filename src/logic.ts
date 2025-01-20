@@ -1,12 +1,11 @@
 let API_KEY: string;
-let iframeEl: HTMLIFrameElement;
+let iframeEl: HTMLIFrameElement | undefined;
 let isInitialized = false;
 let translatedText = "";
 let cameraRotationEnabled = false;
 let error = "";
 let isTranslating = false;
 let isUnityLoaded = false;
-
 const fetchFunction = async (apiKey: string, text: string) => {
   const response = await fetch(
     "https://dev-api.vsllabs.com/api/v2/models/clerc/0",
@@ -56,45 +55,65 @@ const fetchFunction = async (apiKey: string, text: string) => {
 };
 
 const initialize = async (api_key: string, container_id: string) => {
-  API_KEY = api_key;
-  if (!api_key) {
-    const errTxt = "API Key is required";
+  if (!isInitialized) {
+    API_KEY = api_key;
+    if (!api_key) {
+      const errTxt = "API Key is required";
+      error = errTxt;
+      throw new Error(errTxt);
+    }
+    if (!container_id) {
+      const errTxt = "Container ID is required";
+      error = errTxt;
+      throw new Error(errTxt);
+    }
+    try {
+      await fetchFunction(API_KEY, "Hello");
+    } catch (err) {
+      const errTxt = "Invalid API Key!";
+      error = errTxt;
+      throw new Error(errTxt);
+    }
+    const container = document.getElementById(container_id);
+    if (!container) {
+      const errTxt = `Container ID ${container_id} is not found!`;
+      error = errTxt;
+      throw new Error(errTxt);
+    }
+    iframeEl = document.createElement("iframe");
+    iframeEl.src = "https://webgl-npm-vanilla.vercel.app/";
+    iframeEl.style.width = "100%";
+    iframeEl.style.height = "100%";
+    iframeEl.style.border = "unset";
+    container?.appendChild(iframeEl);
+
+    const observer = new MutationObserver((mutationsList) => {
+      for (const mutation of mutationsList) {
+        if (mutation.type === "childList") {
+          mutation.removedNodes.forEach((node) => {
+            if (node === iframeEl) {
+              console.log("mawahahaha");
+              iframeEl = undefined;
+              isInitialized = false;
+              translatedText = "";
+              cameraRotationEnabled = false;
+              error = "";
+              isTranslating = false;
+              isUnityLoaded = false;
+            }
+          });
+        }
+      }
+    });
+    observer.observe(container, { childList: true });
+
+    isInitialized = true;
+    error = "";
+  } else {
+    const errTxt = "A webgl instance is already initialized!";
     error = errTxt;
     throw new Error(errTxt);
   }
-
-  if (!container_id) {
-    const errTxt = "Container ID is required";
-    error = errTxt;
-    throw new Error(errTxt);
-  }
-
-  try {
-    await fetchFunction(API_KEY, "Hello");
-  } catch (err) {
-    const errTxt = "Invalid API Key!";
-    error = errTxt;
-    throw new Error(errTxt);
-  }
-
-  const container = document.getElementById(container_id);
-
-  if (!container) {
-    const errTxt = `Container ID ${container_id} is not found!`;
-    error = errTxt;
-    throw new Error(errTxt);
-  }
-
-  iframeEl = document.createElement("iframe");
-  iframeEl.src = "https://webgl-npm-vanilla.vercel.app/";
-  iframeEl.style.width = "100%";
-  iframeEl.style.height = "100%";
-  iframeEl.style.border = "unset";
-
-  container?.appendChild(iframeEl);
-
-  isInitialized = true;
-  error = "";
 };
 
 const translateTextToASL = async (text: string) => {
