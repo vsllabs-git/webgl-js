@@ -87,12 +87,18 @@ const initialize = async (api_key: string, container_id: string) => {
     iframeEl.style.border = "unset";
     container?.appendChild(iframeEl);
 
+    iframeEl.onload = () => {
+      iframeEl?.contentWindow?.postMessage(
+        { action: "initialize", API_KEY },
+        "*"
+      );
+    };
+
     const observer = new MutationObserver((mutationsList) => {
       for (const mutation of mutationsList) {
         if (mutation.type === "childList") {
           mutation.removedNodes.forEach((node) => {
             if (node === iframeEl) {
-              console.log("mawahahaha");
               iframeEl = undefined;
               isInitialized = false;
               translatedText = "";
@@ -107,7 +113,6 @@ const initialize = async (api_key: string, container_id: string) => {
     });
     observer.observe(container, { childList: true });
 
-    isInitialized = true;
     error = "";
   } else {
     const errTxt = "A webgl instance is already initialized!";
@@ -216,6 +221,7 @@ function handleMessage(event: any) {
     event.data?.status === "loaded"
   ) {
     setTimeout(() => {
+      isInitialized = true;
       isUnityLoaded = true;
     }, 3200);
   }
